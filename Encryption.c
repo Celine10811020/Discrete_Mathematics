@@ -8,6 +8,7 @@ int main()
 {
     unsigned int i, j;
     unsigned long temp;
+    unsigned long data[1000] = {};
     unsigned long n;
     unsigned int e;
     unsigned int m[100] = {};
@@ -37,12 +38,20 @@ int main()
         {
             temp %= n;
         }
+        
+        data[m[0]] = temp;
     }
     printf("%lu", temp);
 
 
     for(i=1; i<length; i++)
     {
+        if(data[m[i]] != 0)
+        {
+            printf(",%lu", data[m[i]]);
+            continue;
+        }
+        
         temp = 1;
         #pragma omp parallel for
         for(j=0; j<e; j++)
@@ -55,6 +64,8 @@ int main()
             }
         }
         printf(",%lu", temp);
+        
+        data[m[i]] = temp;
     }
     return 0;
 }
